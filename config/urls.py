@@ -24,6 +24,12 @@ from rest_framework.routers import DefaultRouter
 # djoser
 from djoser.views import UserViewSet
 
+
+admin.site.site_header = 'Invoice Management System'
+admin.site.site_title = 'Invoice Management System'
+admin.site.index_title = 'Home'
+admin.site.site_url = None
+
 router = DefaultRouter()
 router.register('users', UserViewSet)
 
