@@ -83,6 +83,7 @@ INSTALLED_APPS = [
 
     # local
     'users.apps.UsersConfig',
+    'finance.apps.FinanceConfig',
 ]
 
 MIDDLEWARE = [
