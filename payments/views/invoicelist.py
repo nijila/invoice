@@ -12,7 +12,7 @@ from users.models import User
 
 @csrf_exempt
 def invoicelist(request):
-    invoces = Invoice.objects.all()
+    invoces = Invoice.objects.filter(payment_status=False)
     return render(request, 'invoicelist.html', locals())
 
 @csrf_exempt
