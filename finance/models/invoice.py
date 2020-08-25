@@ -13,6 +13,7 @@ class Invoice(models.Model):
     client_email = models.EmailField()
     project_name = models.CharField('Project Name', max_length=300)
     Amount =  models.DecimalField('Amount to be Charged',max_digits=12, decimal_places=2, default=0.00)
+    payment_status = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now, editable=False)
     
 
