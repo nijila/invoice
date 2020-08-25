@@ -61,7 +61,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dmi7tj+skkz0r+^n#slnezk46^p92225n2vci94*lfc7oin1vu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -80,10 +80,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'djoser',
+    'urlshortening',
+    'shortener',
 
     # local
     'users.apps.UsersConfig',
     'finance.apps.FinanceConfig',
+    'payments.apps.PaymentsConfig',
 ]
 
 MIDDLEWARE = [
@@ -102,7 +105,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -203,13 +206,27 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
 # User uploaded files (Images, Videos, PDF)
 # https://docs.djangoproject.com/en/2.2/topics/files/
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#shortener
+SHORTENER_ENABLE_TEST_PATH = True
+
+#shortening url
+INITIAL_URL_LEN = 6
+RETRY_COUNT = 5
+SHORT_URL_PATH = 'http://example.com/short-prefix/'
+REDIRECT_PREFIX = 'r'
+
+#stripe credentials
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
 
 import django_heroku
 django_heroku.settings(locals())

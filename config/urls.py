@@ -26,6 +26,9 @@ from djoser.views import UserViewSet
 
 #local
 from finance.views import InvoiceViewSet
+from finance.views import GenerateUrlViewSet
+from payments.views import HomePageView, stripe_config, create_checkout_session, invoicelist, sendmail
+
 admin.site.site_header = 'Invoice Management System'
 admin.site.site_title = 'Invoice Management System'
 admin.site.index_title = 'Home'
@@ -34,13 +37,21 @@ admin.site.site_url = None
 router = DefaultRouter()
 router.register('users', UserViewSet)
 router.register('invoice', InvoiceViewSet, basename='invoice')
+router.register('generateurl', GenerateUrlViewSet, basename='generateurl')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/', include('djoser.urls.jwt')),
     path('api/', include('rest_framework.urls')),
-]
+    path('payment/', HomePageView, name='home'),
+    path('config/', stripe_config),
+    path('create-checkout-session/', create_checkout_session),
+    path('invoicelist/', invoicelist),
+    path('sendmail/', sendmail, name='sendmail'),
+    path('s/', include('shortener.urls')),
+   ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -18,6 +18,9 @@ django-heroku = "*"
 gunicorn = "*"
 django-extensions = "*"
 ipython = "*"
+stripe = "*"
+django-url-shortening = "*"
+django-link-shortener = "*"
 
 [requires]
 python_version = "3.7"
