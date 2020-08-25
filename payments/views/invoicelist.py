@@ -15,6 +15,14 @@ def invoicelist(request):
     invoces = Invoice.objects.all()
     return render(request, 'invoicelist.html', locals())
 
+@csrf_exempt
+def paymentsuccess(request, invoice_id):
+    invoice = Invoice.objects.get(pk=int(invoice_id))
+    invoice.payment_status = True
+    invoice.save()
+    return render(request, 'success.html', locals()) 
+
+
 # @csrf_exempt
 def sendmail(request):
     
@@ -35,14 +43,15 @@ def sendmail(request):
 
         # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
         checkout_session = stripe.checkout.Session.create(
-            success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+            # success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+            success_url=domain_url+'paymentsuccess/'+str(invoice.id),
             cancel_url=domain_url + 'cancelled/',
             payment_method_types=['card'],
             mode='payment',
             line_items=[
                 {
                     'name': "Payment",
-                    'description': 1,
+                    'description': invoice.id,
                     'amount': int(invoice.Amount*100),
                     'currency': 'inr',
                     'quantity': 1

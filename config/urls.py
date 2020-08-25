@@ -26,7 +26,7 @@ from djoser.views import UserViewSet
 
 #local
 from finance.views import InvoiceViewSet
-from payments.views import HomePageView, stripe_config, create_checkout_session, invoicelist, sendmail
+from payments.views import HomePageView, stripe_config, create_checkout_session, invoicelist, sendmail, paymentsuccess
 
 admin.site.site_header = 'Invoice Management System'
 admin.site.site_title = 'Invoice Management System'
@@ -50,6 +50,7 @@ urlpatterns = [
     path('invoicelist/', invoicelist),
     path('api/sendmail/', sendmail, name='sendmail'),
     path('s/', include('shortener.urls')),
+    path('paymentsuccess/<invoice_id>',paymentsuccess,)
    ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
