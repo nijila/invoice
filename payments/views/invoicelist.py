@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView
 from urlshortening.models import get_short_url, invalidate_url, get_full_url
 from shortener import shortener
 import stripe
-
+from users.models import User
 
 @csrf_exempt
 def invoicelist(request):
@@ -18,13 +18,11 @@ def invoicelist(request):
 # @csrf_exempt
 def sendmail(request):
     
-    # print(request.data)
-    # print(request.value)
-    # print()
-    print("success")
+    
     invoice_id=request.POST.get('button')
     invoice = Invoice.objects.get(pk=int(invoice_id))
-    domain_url = 'http://localhost:8000/'
+    domain_url = request.build_absolute_uri().split('api/')[0]
+    print(domain_url)
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         # Create new Checkout Session for the order
@@ -55,10 +53,11 @@ def sendmail(request):
    
         session_id = checkout_session['id']
         link = domain_url+"payment?amount={0}&session_id={1}".format(invoice.Amount, session_id)
-        short_url = domain_url+"/"+invoice_id
+        user=User.objects.all().first()
+        short_url=domain_url+"s/"+shortener.create(user,link)
+        # short_url = domain_url+"/"+invoice_id
         # print(success_url)
         return JsonResponse({'sessionId': checkout_session['id'], 'link':str(short_url)})
     except Exception as e:
-        print("hello")
         return JsonResponse({'error': str(e)})
     return render(request, 'invoicelist.html', locals())

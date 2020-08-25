@@ -49,7 +49,7 @@ urlpatterns = [
     path('config/', stripe_config),
     path('create-checkout-session/', create_checkout_session),
     path('invoicelist/', invoicelist),
-    path('sendmail/', sendmail, name='sendmail'),
+    path('api/sendmail/', sendmail, name='sendmail'),
     path('s/', include('shortener.urls')),
    ]
 
