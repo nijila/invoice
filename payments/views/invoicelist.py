@@ -55,9 +55,7 @@ def sendmail(request):
         link = domain_url+"payment?amount={0}&session_id={1}".format(invoice.Amount, session_id)
         user=User.objects.all().first()
         short_url=domain_url+"s/"+shortener.create(user,link)
-        # short_url = domain_url+"/"+invoice_id
-        # print(success_url)
-        return JsonResponse({'sessionId': checkout_session['id'], 'link':str(short_url)})
+        return JsonResponse({'sessionId': checkout_session['id'], 'shortlink':str(short_url)})
     except Exception as e:
         return JsonResponse({'error': str(e)})
     return render(request, 'invoicelist.html', locals())

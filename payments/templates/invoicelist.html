@@ -5,24 +5,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% comment %} <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> {% endcomment %}
-    <title>Django + Stripe Checkout</title>
-    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
-    {% comment %} <script src="https://js.stripe.com/v3/"></script>  <!-- new --> {% endcomment %}
-    {% comment %} <script src="{% static 'main.js' %}"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script> {% endcomment %}
-  </head> 
+    <title>Invoice</title>
+     <style>
+         table, th, td {
+            border: 1px solid black;
+         }
+      </style>
+    </head> 
   <body>
   <section class="section">
     <div class="container">
      <form action="{% url 'sendmail' %}" method="POST" class="sendmail">
             {% csrf_token %}  
-            <table>
-            <tr>
-                <td>Invoice Number</td>
-                <td>Client Name</td>
-                <td>Amount</td>
+            <table >
+            <tr padding=>
+                <th style="padding:10px">Sl.No</th>
+                <th style="padding:10px">Invoice Number</th>
+                <th style="padding:10px">Client Name</th>
+                <th style="padding:10px">Amount</th>
             </tr>
             {% for item in invoces %}
             <tr> 
@@ -31,11 +31,6 @@
                 <td>{{ item.client_name }}</td>
                 <td>{{ item.Amount }}</td>
                 <td>
-                
-                {% comment %} <inputype="hidden", name="id", value={{item.id}}> {% endcomment %}
-                {% comment %} <button class="button is-primary" , onclick="location.href='{% url 'sendmail' %}'" id="submitBtn">sendlink</button> {% endcomment %}
-                {{item.id}}
-                {% comment %} <button type="submit" value={{item.id}} onclick="location.href='{% url 'sendmail' item.id %}'" name='mybtn2'>sendlink</button> {% endcomment %}
                 <button type="submit" name="button" value={{item.id}} onclick="location.href='{% url 'sendmail' %}'" class="btn btn-outline-primary btn-lg btn-block lg-btn">Sendlink</button>
                 </td>
             </tr>
@@ -45,10 +40,7 @@
               
             
         </form>
-    {% comment %} <form method="POST">
-    {% csrf_token %} {% endcomment %}
-        
-    {% comment %} </form> {% endcomment %}
+    
     </div>
   </section>
   </body>

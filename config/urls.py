@@ -26,7 +26,6 @@ from djoser.views import UserViewSet
 
 #local
 from finance.views import InvoiceViewSet
-from finance.views import GenerateUrlViewSet
 from payments.views import HomePageView, stripe_config, create_checkout_session, invoicelist, sendmail
 
 admin.site.site_header = 'Invoice Management System'
@@ -37,7 +36,7 @@ admin.site.site_url = None
 router = DefaultRouter()
 router.register('users', UserViewSet)
 router.register('invoice', InvoiceViewSet, basename='invoice')
-router.register('generateurl', GenerateUrlViewSet, basename='generateurl')
+
 
 
 urlpatterns = [
